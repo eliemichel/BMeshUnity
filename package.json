@@ -1,0 +1,12 @@
+{
+	"name": "com.exppad.bmesh-unity",
+	"version": "1.0.0",
+	"displayName": "BMesh for Unity",
+	"description": "A library for mesh procedural manipulation built around a non-manifold boundary mesh representation inpired by Blender",
+	"keywords": ["procedural", "mesh", "data structure", "bmesh"],
+	"author": {
+		"name": "Elie Michel",
+		"email": "elie@exppad.com",
+		"url": "https://exppad.com/"
+	}
+}
