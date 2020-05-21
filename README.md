@@ -8,8 +8,6 @@ The mesh structure is similar to [the one used in Blender](https://wiki.blender.
 Getting Started
 ---------------
 
-**NB:** *You can also find [BMesh for Unity on the asset store]().*
-
 ### Installation
 
 This is a standard git-based package:
