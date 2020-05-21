@@ -1,3 +1,5 @@
+![BMeshUnity Logo](Doc/BMeshUnity.png)
+
 BMesh for Unity
 ===============
 
