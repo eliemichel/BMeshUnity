@@ -22,7 +22,7 @@ This is a standard git-based package:
 
 ![Add package from git URL](Doc/GitUrl.png)
 
- 3. In the text field, paste `https://github.com/eliemichel/BMeshUnity`:
+ 3. In the text field, paste `https://github.com/eliemichel/BMeshUnity.git`:
 
 ![Pasting this repos' URL](Doc/GitUrl2.png)
 
