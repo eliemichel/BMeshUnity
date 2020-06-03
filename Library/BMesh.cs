@@ -23,6 +23,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using UnityEngine;
 
 /**
@@ -146,17 +147,20 @@ public class BMesh
          */
         public List<Face> NeighborFaces()
         {
-            var faces = new List<Face>();
+            var faces = new HashSet<Face>();
             if (edge != null)
             {
                 Edge it = edge;
                 do
                 {
-                    faces.AddRange(it.NeighborFaces());
+                    foreach (var f in it.NeighborFaces())
+                    {
+                        faces.Add(f);
+                    }
                     it = it.Next(this);
                 } while (it != edge);
             }
-            return faces;
+            return faces.ToList();
         }
     }
 
@@ -393,6 +397,25 @@ public class BMesh
         }
 
         /**
+         * Assuming the vertex is part of the face, return the loop such that
+         * loop.vert = v. Return null otherwise.
+         */
+        public Loop Loop(Vertex v)
+        {
+            if (this.loop != null)
+            {
+                Loop it = this.loop;
+                do
+                {
+                    Debug.Assert(it != null);
+                    if (it.vert == v) return it;
+                    it = it.next;
+                } while (it != this.loop);
+            }
+            return null;
+        }
+
+        /**
          * Get the list of edges around the face.
          * It is garrantied to match the order of NeighborVertices(), so that
          * edge[0] = vert[0]-->vert[1], edge[1] = vert[1]-->vert[2], etc.
@@ -541,6 +564,11 @@ public class BMesh
         return f;
     }
 
+    public Face AddFace(Vertex v0, Vertex v1)
+    {
+        return AddFace(new Vertex[] { v0, v1 });
+    }
+
     public Face AddFace(Vertex v0, Vertex v1, Vertex v2)
     {
         return AddFace(new Vertex[] { v0, v1, v2 });
@@ -549,6 +577,11 @@ public class BMesh
     public Face AddFace(Vertex v0, Vertex v1, Vertex v2, Vertex v3)
     {
         return AddFace(new Vertex[] { v0, v1, v2, v3 });
+    }
+
+    public Face AddFace(int i0, int i1)
+    {
+        return AddFace(new Vertex[] { vertices[i0], vertices[i1] });
     }
 
     public Face AddFace(int i0, int i1, int i2)

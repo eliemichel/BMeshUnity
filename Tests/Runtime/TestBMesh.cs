@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using static BMesh;
 
@@ -133,6 +134,21 @@ public class TestBMesh
         Debug.Assert(mesh.edges.Count == 5, "edge count");
         Debug.Assert(mesh.faces.Count == 2, "face count");
 
+        Debug.Assert(v0.NeighborFaces().Count == 1, "v0 has one neighbor face (found count: " + v0.NeighborFaces().Count + ")");
+        Debug.Assert(v1.NeighborFaces().Count == 2, "v1 has two neighbor face (found count: " + v1.NeighborFaces().Count + ")");
+
+        foreach (Loop l in mesh.loops)
+        {
+            Debug.Assert(l.next != null, "loop has a next loop");
+            Debug.Assert(l.prev != null, "loop has a next loop");
+        }
+
+        Debug.Assert(f0.Loop(v0) != null, "loop with vertex v0 does not exist in face f0");
+        Debug.Assert(f0.Loop(v0).vert == v0, "loop with vertex v0 has v0 as corner");
+        Debug.Assert(f0.Loop(v1) != null, "loop with vertex v1 does not exist in face f0");
+        Debug.Assert(f0.Loop(v1).vert == v1, "loop with vertex v1 has v1 as corner");
+        Debug.Assert(f0.Loop(v3) == null, "loop with vertex v3 does not exist in face f0");
+
         Edge e0 = null;
         foreach (Edge e in mesh.edges)
         {
@@ -149,7 +165,36 @@ public class TestBMesh
         Debug.Assert(mesh.edges.Count == 4, "edge count after removing edge");
         Debug.Assert(mesh.faces.Count == 0, "face count after removing edge");
 
+        foreach (Loop l in mesh.loops)
+        {
+            Debug.Assert(l.next != null, "loop still has a next loop");
+            Debug.Assert(l.prev != null, "loop still has a next loop");
+        }
+
         Debug.Log("TestBMesh #3 passed.");
+
+        return true;
+    }
+
+    static bool TestTwoVertexFaces()
+    {
+        var mesh = new BMesh();
+
+        Vertex v0 = mesh.AddVertex(new Vector3(-1, 0, -1));
+        Vertex v1 = mesh.AddVertex(new Vector3(-1, 0, 1));
+        Vertex v2 = mesh.AddVertex(new Vector3(1, 0, 1));
+        Face f0 = mesh.AddFace(v0, v1);
+        Face f1 = mesh.AddFace(v1, v2);
+
+        Debug.Assert(mesh.vertices.Count == 3, "vert count");
+        Debug.Assert(mesh.loops.Count == 4, "loop count");
+        Debug.Assert(mesh.edges.Count == 2, "edge count");
+        Debug.Assert(mesh.faces.Count == 2, "face count");
+
+        Debug.Assert(v0.NeighborFaces().Count == 1, "v0 has one neighbor face (found count: " + v0.NeighborFaces().Count + ")");
+        Debug.Assert(v1.NeighborFaces().Count == 2, "v1 has two neighbor face (found count: " + v1.NeighborFaces().Count + ")");
+
+        Debug.Log("TestBMesh TestTwoVertexFaces passed.");
 
         return true;
     }
@@ -245,6 +290,7 @@ public class TestBMesh
         if (!Test1()) return false;
         if (!Test2()) return false;
         if (!Test3()) return false;
+        if (!TestTwoVertexFaces()) return false;
         if (!TestAttributes()) return false;
         Debug.Log("All TestBMesh passed.");
         return true;
