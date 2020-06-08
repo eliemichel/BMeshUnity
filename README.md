@@ -7,6 +7,8 @@ This Unity package is a library to make runtime procedural mesh generation as fl
 
 The mesh structure is similar to [the one used in Blender](https://wiki.blender.org/wiki/Source/Modeling/BMesh/Design), and a mechanism for adding arbitrary attributes to vertices/edges/loops/faces is available, for instance for people used to [Houdini's wrangle nodes](https://www.sidefx.com/docs/houdini/nodes/sop/attribwrangle.html).
 
+**Unreal Engine** This library has been ported to Unreal Engine by Daniel Amthauer: https://github.com/daniel-amthauer/BMeshUnreal
+
 Getting Started
 ---------------
 
