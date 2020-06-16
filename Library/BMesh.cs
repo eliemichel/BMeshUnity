@@ -107,10 +107,10 @@ public class BMesh
      * A vertex corresponds roughly to a position in space. Many primitives
      * (edges, faces) can share a given vertex. Several vertices can be located
      * at the very same position.
-     * A references a chained list of the edges that use it embeded inside the Edge
-     * structure (see bellow, and see implementation of NeighborEdges).
-     * The vertex position does not affect topological algorithm but is used by
-     * commodity functions that helps finding the center of an edge or a face.
+     * It references a chained list of the edges that use it, embeded inside the Edge
+     * structure (see below, and see implementation of NeighborEdges).
+     * The vertex position does not affect topological algorithms, but is used by
+     * commodity functions that help finding the center of an edge or a face.
      */
     public class Vertex
     {
@@ -287,12 +287,12 @@ public class BMesh
      * 
      * A loop can be seen as a list of edges, it also stores a reference to a
      * vertex for commodity but technically it could be found through the edge.
-     * It may also be interpreted as a "face corner", and us hence where one
-     * typically stores UVs, because a same vertex may have different UV
-     * coordinate depending on the face.
+     * It may also be interpreted as a "face corner", and is hence where one
+     * typically stores UVs, because one vertex may have different UV
+     * coordinates depending on the face.
      * 
      * On top of this, the loop is also used as a node of another linked list,
-     * namely the radial list, that enables iterating over all the face using
+     * namely the radial list, that enables iterating over all the faces using
      * the same edge.
      */
     public class Loop
@@ -368,7 +368,7 @@ public class BMesh
 
     /**
      * A face is almost nothing more than a loop. Having a different structure
-     * makes sens only 1. for clarity, because loops are a less intuitive
+     * makes sense only 1. for clarity, because loops are a less intuitive
      * object and 2. to store face attributes.
      */
     public class Face
