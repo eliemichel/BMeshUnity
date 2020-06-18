@@ -50,6 +50,7 @@ public class BMeshUnity
         // Points
         Vector2[] uvs = null;
         Vector2[] uvs2 = null;
+        Vector3[] normals = null;
         Vector3[] points = new Vector3[mesh.vertices.Count];
         if (mesh.HasVertexAttribute("uv"))
         {
@@ -58,6 +59,10 @@ public class BMeshUnity
         if (mesh.HasVertexAttribute("uv2"))
         {
             uvs2 = new Vector2[mesh.vertices.Count];
+        }
+        if (mesh.HasVertexAttribute("normal"))
+        {
+            normals = new Vector3[mesh.vertices.Count];
         }
         int i = 0;
         foreach (var vert in mesh.vertices)
@@ -73,6 +78,11 @@ public class BMeshUnity
             {
                 var uv2 = vert.attributes["uv2"] as FloatAttributeValue;
                 uvs2[i] = new Vector2(uv2.data[0], uv2.data[1]);
+            }
+            if (normals != null)
+            {
+                var normal = vert.attributes["normal"] as FloatAttributeValue;
+                normals[i] = normal.AsVector3();
             }
             ++i;
         }
@@ -129,6 +139,7 @@ public class BMeshUnity
         unityMesh.vertices = points;
         if (uvs != null) unityMesh.uv = uvs;
         if (uvs2 != null) unityMesh.uv2 = uvs2;
+        if (normals != null) unityMesh.normals = normals;
         unityMesh.subMeshCount = triangles.Length;
 
         // Fix an issue when renderer has more materials than there are submeshes
@@ -142,7 +153,11 @@ public class BMeshUnity
         {
             unityMesh.SetTriangles(triangles[mat], mat);
         }
-        unityMesh.RecalculateNormals();
+
+        if (normals == null)
+        {
+            unityMesh.RecalculateNormals();
+        }
     }
 
     #endregion
@@ -158,13 +173,21 @@ public class BMeshUnity
     public static void Merge(BMesh mesh, Mesh unityMesh, bool flipFaces = false)
     {
         Vector3[] unityVertices = unityMesh.vertices;
+        Vector3[] unityNormals = unityMesh.normals;
         int[] unityTriangles = unityMesh.triangles;
         var verts = new Vertex[unityVertices.Length];
-        
+        if (unityNormals != null)
+        {
+            mesh.AddVertexAttribute(new AttributeDefinition("normal", AttributeBaseType.Float, 3));
+        }
         for (int i = 0; i < unityVertices.Length; ++i)
         {
             Vector3 p = unityVertices[i];
             verts[i] = mesh.AddVertex(p);
+            if (unityNormals != null)
+            {
+                verts[i].attributes["normal"] = new FloatAttributeValue(unityNormals[i]);
+            }
         }
         for (int i = 0; i < unityTriangles.Length / 3; ++i)
         {
