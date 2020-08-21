@@ -901,18 +901,18 @@ public class BMesh
         public Vector3 AsVector3()
         {
             return new Vector3(
-                data.Length >= 0 ? data[0] : 0,
-                data.Length >= 1 ? data[1] : 0,
-                data.Length >= 2 ? data[2] : 0
+                data.Length > 0 ? data[0] : 0,
+                data.Length > 1 ? data[1] : 0,
+                data.Length > 2 ? data[2] : 0
             );
         }
         public Color AsColor()
         {
             return new Color(
-                data.Length >= 0 ? data[0] : 0,
-                data.Length >= 1 ? data[1] : 0,
-                data.Length >= 2 ? data[2] : 0,
-                data.Length >= 3 ? data[3] : 1
+                data.Length > 0 ? data[0] : 0,
+                data.Length > 1 ? data[1] : 0,
+                data.Length > 2 ? data[2] : 0,
+                data.Length > 3 ? data[3] : 1
             );
         }
 
