@@ -51,6 +51,7 @@ public class BMeshUnity
         Vector2[] uvs = null;
         Vector2[] uvs2 = null;
         Vector3[] normals = null;
+        Color[] colors = null;
         Vector3[] points = new Vector3[mesh.vertices.Count];
         if (mesh.HasVertexAttribute("uv"))
         {
@@ -63,6 +64,10 @@ public class BMeshUnity
         if (mesh.HasVertexAttribute("normal"))
         {
             normals = new Vector3[mesh.vertices.Count];
+        }
+        if (mesh.HasVertexAttribute("color"))
+        {
+            colors = new Color[mesh.vertices.Count];
         }
         int i = 0;
         foreach (var vert in mesh.vertices)
@@ -83,6 +88,11 @@ public class BMeshUnity
             {
                 var normal = vert.attributes["normal"] as FloatAttributeValue;
                 normals[i] = normal.AsVector3();
+            }
+            if (colors != null)
+            {
+                var color = vert.attributes["color"] as FloatAttributeValue;
+                colors[i] = color.AsColor();
             }
             ++i;
         }
@@ -140,6 +150,7 @@ public class BMeshUnity
         if (uvs != null) unityMesh.uv = uvs;
         if (uvs2 != null) unityMesh.uv2 = uvs2;
         if (normals != null) unityMesh.normals = normals;
+        if (colors != null) unityMesh.colors = colors;
         unityMesh.subMeshCount = triangles.Length;
 
         // Fix an issue when renderer has more materials than there are submeshes
@@ -173,20 +184,51 @@ public class BMeshUnity
     public static void Merge(BMesh mesh, Mesh unityMesh, bool flipFaces = false)
     {
         Vector3[] unityVertices = unityMesh.vertices;
+        Vector2[] unityUvs = unityMesh.uv;
+        Vector2[] unityUvs2 = unityMesh.uv2;
         Vector3[] unityNormals = unityMesh.normals;
+        Color[] unityColors = unityMesh.colors;
+        bool hasUvs = unityUvs != null && unityUvs.Length > 0;
+        bool hasUvs2 = unityUvs2 != null && unityUvs2.Length > 0;
+        bool hasNormals = unityNormals != null && unityNormals.Length > 0;
+        bool hasColors = unityColors != null && unityColors.Length > 0;
         int[] unityTriangles = unityMesh.triangles;
         var verts = new Vertex[unityVertices.Length];
-        if (unityNormals != null)
+        if (hasUvs)
+        {
+            mesh.AddVertexAttribute(new AttributeDefinition("uv", AttributeBaseType.Float, 2));
+        }
+        if (hasUvs2)
+        {
+            mesh.AddVertexAttribute(new AttributeDefinition("uv2", AttributeBaseType.Float, 2));
+        }
+        if (hasNormals)
         {
             mesh.AddVertexAttribute(new AttributeDefinition("normal", AttributeBaseType.Float, 3));
+        }
+        if (hasColors)
+        {
+            mesh.AddVertexAttribute(new AttributeDefinition("color", AttributeBaseType.Float, 4));
         }
         for (int i = 0; i < unityVertices.Length; ++i)
         {
             Vector3 p = unityVertices[i];
             verts[i] = mesh.AddVertex(p);
-            if (unityNormals != null)
+            if (hasUvs)
             {
-                verts[i].attributes["normal"] = new FloatAttributeValue(unityNormals[i]);
+                verts[i].attributes["uv"].asFloat().FromVector2(unityUvs[i]);
+            }
+            if (hasUvs2)
+            {
+                verts[i].attributes["uv2"].asFloat().FromVector2(unityUvs2[i]);
+            }
+            if (hasNormals)
+            {
+                verts[i].attributes["normal"].asFloat().FromVector3(unityNormals[i]);
+            }
+            if (hasColors)
+            {
+                verts[i].attributes["color"].asFloat().FromColor(unityColors[i]);
             }
         }
         for (int i = 0; i < unityTriangles.Length / 3; ++i)

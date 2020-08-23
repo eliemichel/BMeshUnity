@@ -878,12 +878,41 @@ public class BMesh
         {
             data = new float[] { v.x, v.y, v.z };
         }
+
+        public void FromVector2(Vector2 v)
+        {
+            data[0] = v.x;
+            data[1] = v.y;
+        }
+        public void FromVector3(Vector3 v)
+        {
+            data[0] = v.x;
+            data[1] = v.y;
+            data[2] = v.z;
+        }
+        public void FromColor(Color c)
+        {
+            data[0] = c.r;
+            data[1] = c.g;
+            data[2] = c.b;
+            data[3] = c.a;
+        }
+
         public Vector3 AsVector3()
         {
             return new Vector3(
-                data.Length >= 0 ? data[0] : 0,
-                data.Length >= 1 ? data[1] : 0,
-                data.Length >= 2 ? data[2] : 0
+                data.Length > 0 ? data[0] : 0,
+                data.Length > 1 ? data[1] : 0,
+                data.Length > 2 ? data[2] : 0
+            );
+        }
+        public Color AsColor()
+        {
+            return new Color(
+                data.Length > 0 ? data[0] : 0,
+                data.Length > 1 ? data[1] : 0,
+                data.Length > 2 ? data[2] : 0,
+                data.Length > 3 ? data[3] : 1
             );
         }
 
