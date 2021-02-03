@@ -160,6 +160,56 @@ public class MyMeshGenerator : MonoBehaviour
 }
 ```
 
+Texture coordinates
+-------------------
+
+You can add UVs to the generated mesh using a custom vertex attributes called "uv".
+
+```C#
+using UnityEngine;
+using static BMesh;
+
+public class MyMeshGenerator : MonoBehaviour
+{
+    void Start()
+    {
+        // Same beginning as the first example
+        BMesh mesh = new BMesh();
+        Vertex v1 = mesh.AddVertex(-1, 0, -1);
+        Vertex v2 = mesh.AddVertex(1, 0, -1);
+        Vertex v3 = mesh.AddVertex(1, 0, 1);
+        Vertex v4 = mesh.AddVertex(-1, 0, 1);
+        mesh.AddFace(v1, v2, v3, v4);
+
+        // Add UVs
+        // First define a vertex attribute called "uv" which is made of 2 floats
+        var uv = mesh.AddVertexAttribute("uv", AttributeBaseType.Float, 2);
+        
+        // Then fill it in in each vertex
+        v1.attributes["uv"] = new FloatAttributeValue(0.0f, 0.0f);
+        v2.attributes["uv"] = new FloatAttributeValue(1.0f, 0.0f);
+        v3.attributes["uv"] = new FloatAttributeValue(1.0f, 1.0f);
+        v4.attributes["uv"] = new FloatAttributeValue(0.0f, 1.0f);
+
+        BMeshUnity.SetInMeshFilter(mesh, GetComponent<MeshFilter>());
+    }
+}
+```
+
+Custom attributes
+-----------------
+
+Custom attributes like UVs can be attached to any of the points, vertices or faces. They may be `Float` or `Int` and have an arbitrary size. They may be used for your own generation purposes, but the following ones have a particular meaning when calling `SetInMeshFilter()`:
+
+| Attribute Name | Attachement | Type | Interpretation |
+| ------------- | ------------- | ------------- | ------------- |
+| uv | Vertex | Float2 | Primary texture coordinate |
+| uv2 | Vertex | Float2 | Secondary texture coordinate |
+| normal | Vertex | Float3 | Normal vector at each vertex. If not present, normals are automatically calculated using [`RecalculateNormals`](https://docs.unity3d.com/ScriptReference/Mesh.RecalculateNormals.html) |
+| color | Vertex | Float3 | Vertex color |
+| materialId | Face | Int1 | Index of the material to use in the `renderer.materials` array |
+
+
 Going further
 -------------
 
