@@ -23,6 +23,10 @@ namespace BMeshLib
      * next one, so the function Next() is provided to return either next1 or
      * next2 depending on the vertex of interest.
      */
+    /// <summary>
+    /// Links two <see cref="Vertex"/>s together, and may or may not be part of a <see cref="Face"/>.
+    /// </summary>
+    /// <remarks>Multiple <see cref="Face"/>s can share the same <see cref="Edge"/>.</remarks>
     public class Edge
     {
         public int id; // [attribute]
@@ -35,28 +39,34 @@ namespace BMeshLib
         public Edge prev2;
         public Loop loop; // first node of the list of faces that use this edge. Navigate list using radial_next
 
-        /**
-         * Tells whether a vertex is one of the extremities of this edge.
-         */
+        /// <summary>
+        /// Whether the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>.
+        /// </summary>
+        /// <param name="v">The <see cref="Vertex"/> to compare.</param>
+        /// <returns><c>true</c> if <paramref name="v"/> is used by the <see cref="Edge"/>; otherwise, <c>false</c>.</returns>
         public bool ContainsVertex(Vertex v)
         {
             return v == vert1 || v == vert2;
         }
 
-        /**
-         * If one gives a vertex of the edge to this function, it returns the
-         * other vertex of the edge. Otherwise, the behavior is undefined.
-         */
+        /// <summary>
+        /// Returns the other <see cref="Vertex"/> that makes up the <see cref="Edge"/> of the specified <see cref="Vertex"/>.
+        /// </summary>
+        /// <remarks>Assumes that the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>; otherwise, behavior is undefined.</remarks>
+        /// <param name="v">The <see cref="Vertex"/> to get the other of.</param>
+        /// <returns>The other <see cref="Vertex"/> that makes up the edge. Shorthand for <c><paramref name="v"/> == <see cref="vert1"/> ? <see cref="vert2"/> : <see cref="vert1"/></c>.</returns>
         public Vertex OtherVertex(Vertex v)
         {
             Debug.Assert(ContainsVertex(v));
             return v == vert1 ? vert2 : vert1;
         }
 
-        /**
-         * If one gives a vertex of the edge to this function, it returns the
-         * next edge in the linked list of edges that use this vertex.
-         */
+        /// <summary>
+        /// Returns the next <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>.
+        /// </summary>
+        /// <remarks>Assumes that the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>; otherwise, behavior is undefined.</remarks>
+        /// <param name="v"></param>
+        /// <returns>The next <see cref="Edge"/> in the linked list of edges that use <paramref name="v"/>. Shorthand for <c><paramref name="v"/> == <see cref="vert1"/> ? <see cref="next1"/> : <see cref="next2"/></c>.</returns>
         public Edge Next(Vertex v)
         {
             Debug.Assert(ContainsVertex(v));
@@ -73,9 +83,12 @@ namespace BMeshLib
             else next2 = other;
         }
 
-        /**
-         * Similar to Next() but to go backward in the double-linked list
-         */
+        /// <summary>
+        /// Returns the previous <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>.
+        /// </summary>
+        /// <remarks>Assumes that the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>; otherwise, behavior is undefined.</remarks>
+        /// <param name="v"></param>
+        /// <returns>The previous <see cref="Edge"/> in the linked list of edges that use <paramref name="v"/>. Shorthand for <c><paramref name="v"/> == <see cref="vert1"/> ? <see cref="prev1"/> : <see cref="prev2"/></c>.</returns>
         public Edge Prev(Vertex v)
         {
             Debug.Assert(ContainsVertex(v));
@@ -92,9 +105,10 @@ namespace BMeshLib
             else prev2 = other;
         }
 
-        /**
-         * Return all faces that use this edge as a side.
-         */
+        /// <summary>
+        /// Returns all <see cref="Face"/>s that use the <see cref="Edge"/> as a side.
+        /// </summary>
+        /// <returns>all <see cref="Face"/>s that use the <see cref="Edge"/> as one of it's sides.</returns>
         public List<Face> NeighborFaces()
         {
             var faces = new List<Face>();
@@ -110,9 +124,10 @@ namespace BMeshLib
             return faces;
         }
 
-        /**
-         * Compute the barycenter of the edge's vertices
-         */
+        /// <summary>
+        /// The center of the <see cref="Edge"/>'s vertices.
+        /// </summary>
+        /// <returns>The center between <see cref="vert1"/> and <see cref="vert2"/>.</returns>
         public Vector3 Center()
         {
             return (vert1.point + vert2.point) * 0.5f;

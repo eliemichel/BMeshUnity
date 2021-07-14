@@ -23,6 +23,12 @@ namespace BMeshLib
      * The vertex position does not affect topological algorithms, but is used by
      * commodity functions that help finding the center of an edge or a face.
      */
+    /// <summary>
+    /// Corresponds to a point in space, and is used by <see cref="Edge"/> and <see cref="Face"/> to construct a <see cref="BMesh"/>. 
+    /// </summary>
+    /// <remarks>
+    ///  Multiple <see cref="Edge"/>s and <see cref="Face"/>s can use the same <see cref="Vertex"/>, and multiple vertices can be located at the exact same position.
+    /// </remarks>
     public class Vertex
     {
         public int id; // [attribute]
@@ -35,9 +41,10 @@ namespace BMeshLib
             point = _point;
         }
 
-        /**
-         * List all edges reaching this vertex.
-         */
+        /// <summary>
+        /// Returns all <see cref="Edge"/>s that reach the <see cref="Vertex"/>.
+        /// </summary>
+        /// <returns>All <see cref="Edge"/>s that reach the <see cref="Vertex"/>. Uses <see cref="Edge.Next(Vertex)"/> from <see cref="edge"/> until it reaches <see cref="edge"/> again.</returns>
         public List<Edge> NeighborEdges()
         {
             var edges = new List<Edge>();
@@ -53,9 +60,10 @@ namespace BMeshLib
             return edges;
         }
 
-        /**
-         * Return all faces that use this vertex as a corner.
-         */
+        /// <summary>
+        /// Returns all <see cref="Face"/>s that use the <see cref="Vertex"/> as a corner.
+        /// </summary>
+        /// <returns>All <see cref="Face"/>s that use the <see cref="Vertex"/> as one of it's corners.</returns>
         public List<Face> NeighborFaces()
         {
             var faces = new HashSet<Face>();

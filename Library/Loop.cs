@@ -18,6 +18,9 @@ namespace BMeshLib
      * namely the radial list, that enables iterating over all the faces using
      * the same edge.
      */
+    /// <summary>
+    /// Represents a portion of a <see cref="Face"/>.
+    /// </summary>
     public class Loop
     {
         public Dictionary<string, AttributeValue> attributes; // [attribute] (extra attributes)
@@ -38,10 +41,10 @@ namespace BMeshLib
             SetFace(f);
         }
 
-        /**
-         * Insert the loop in the linked list of the face.
-         * (Used in constructor)
-         */
+        /// <summary>
+        /// Insert the <see cref="Loop"/> in to the linked list of the specified <see cref="Face"/>.
+        /// </summary>
+        /// <param name="f">The <see cref="Face"/> to insert the <see cref="Loop"/> in to.</param>
         public void SetFace(Face f)
         {
             Debug.Assert(this.face == null);
@@ -63,10 +66,10 @@ namespace BMeshLib
             this.face = f;
         }
 
-        /**
-         * Insert the loop in the radial linked list.
-         * (Used in constructor)
-         */
+        /// <summary>
+        /// Insert the <see cref="Loop"/> in to the radial linked list.
+        /// </summary>
+        /// <param name="e">The <see cref="Edge"/> to insert the <see cref="Loop"/> in to.</param>
         public void SetEdge(Edge e)
         {
             Debug.Assert(this.edge == null);
