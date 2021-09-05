@@ -27,7 +27,8 @@ namespace BMeshLib
     /// Corresponds to a point in space, and is used by <see cref="Edge"/> and <see cref="Face"/> to construct a <see cref="BMesh"/>. 
     /// </summary>
     /// <remarks>
-    ///  Multiple <see cref="Edge"/>s and <see cref="Face"/>s can use the same <see cref="Vertex"/>, and multiple vertices can be located at the exact same position.
+    /// Multiple <see cref="Edge"/>s and <see cref="Face"/>s can use the same <see cref="Vertex"/>, 
+    /// and multiple vertices can be located at the exact same position.
     /// </remarks>
     public class Vertex
     {
@@ -44,7 +45,10 @@ namespace BMeshLib
         /// <summary>
         /// Returns all <see cref="Edge"/>s that reach the <see cref="Vertex"/>.
         /// </summary>
-        /// <returns>All <see cref="Edge"/>s that reach the <see cref="Vertex"/>. Uses <see cref="Edge.Next(Vertex)"/> from <see cref="edge"/> until it reaches <see cref="edge"/> again.</returns>
+        /// <returns>
+        /// All <see cref="Edge"/>s that reach the <see cref="Vertex"/>. 
+        /// Uses <see cref="Edge.Next(Vertex)"/> from <see cref="edge"/> until it reaches <see cref="edge"/> again.
+        /// </returns>
         public List<Edge> NeighborEdges()
         {
             var edges = new List<Edge>();

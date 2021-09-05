@@ -20,9 +20,9 @@ namespace BMeshLib
         public Loop loop; // navigate list using next
 
         /// <summary>
-        /// Returns the ordered <see cref="Vertex"/>s that are used by the <see cref="Face"/>.
+        /// Returns the ordered <see cref="Vertex"/>s that comprise the corners of the <see cref="Face"/>.
         /// </summary>
-        /// <returns>The vertices that make up the corner's of the <see cref="Face"/>.</returns>
+        /// <returns>The vertices that comprise corners of the <see cref="Face"/>.</returns>
         public List<Vertex> NeighborVertices()
         {
             var verts = new List<Vertex>();

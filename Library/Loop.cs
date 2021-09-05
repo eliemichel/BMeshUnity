@@ -19,7 +19,9 @@ namespace BMeshLib
      * the same edge.
      */
     /// <summary>
-    /// Represents a portion of a <see cref="Face"/>.
+    /// A combination of a <see cref="Vertex"/>, an <see cref="Edge"/> and a <see cref="Face"/>.
+    /// Meant to provide fast access to neighboring edges, by traversing around the <see cref="Face"/> with <see cref="Edge.Next(Vertex)"/>
+    /// and <see cref="Edge.Prev(Vertex)"/>. Or by traversing around the <see cref="Vertex"/> with ReadialNext and RadialPrev.
     /// </summary>
     public class Loop
     {

@@ -40,7 +40,7 @@ namespace BMeshLib
         public Loop loop; // first node of the list of faces that use this edge. Navigate list using radial_next
 
         /// <summary>
-        /// Whether the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>.
+        /// Whether the specified <see cref="Vertex"/> is one of the vertices that comprise the <see cref="Edge"/>.
         /// </summary>
         /// <param name="v">The <see cref="Vertex"/> to compare.</param>
         /// <returns><c>true</c> if <paramref name="v"/> is used by the <see cref="Edge"/>; otherwise, <c>false</c>.</returns>
@@ -50,11 +50,14 @@ namespace BMeshLib
         }
 
         /// <summary>
-        /// Returns the other <see cref="Vertex"/> that makes up the <see cref="Edge"/> of the specified <see cref="Vertex"/>.
+        /// Returns the other <see cref="Vertex"/> that comprises the <see cref="Edge"/>.
         /// </summary>
-        /// <remarks>Assumes that the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>; otherwise, behavior is undefined.</remarks>
+        /// <remarks>
+        /// Assumes that the specified <see cref="Vertex"/> is one of the two vertices 
+        /// that comprise the <see cref="Edge"/>; otherwise, behavior is undefined.
+        /// </remarks>
         /// <param name="v">The <see cref="Vertex"/> to get the other of.</param>
-        /// <returns>The other <see cref="Vertex"/> that makes up the edge. Shorthand for <c><paramref name="v"/> == <see cref="vert1"/> ? <see cref="vert2"/> : <see cref="vert1"/></c>.</returns>
+        /// <returns>The other <see cref="Vertex"/> that makes up the edge.</returns>
         public Vertex OtherVertex(Vertex v)
         {
             Debug.Assert(ContainsVertex(v));
@@ -62,11 +65,30 @@ namespace BMeshLib
         }
 
         /// <summary>
-        /// Returns the next <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>.
+        /// Returns the next <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>. (Opposite of <see cref="Prev(Vertex)"/>).
         /// </summary>
-        /// <remarks>Assumes that the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>; otherwise, behavior is undefined.</remarks>
-        /// <param name="v"></param>
-        /// <returns>The next <see cref="Edge"/> in the linked list of edges that use <paramref name="v"/>. Shorthand for <c><paramref name="v"/> == <see cref="vert1"/> ? <see cref="next1"/> : <see cref="next2"/></c>.</returns>
+        /// <remarks>
+        /// Assumes that the specified <see cref="Vertex"/> is one of the vertices that 
+        /// comprise the <see cref="Edge"/>; otherwise, behavior is undefined.
+        /// It is ensured calling <c>Next</c> on each resulting <see cref="Edge"/> will iterate through
+        /// all edges that the specified <see cref="Vertex"/> comprises.
+        /// </remarks>
+        /// <example>
+        /// For instance the following iterates through all edges:
+        /// <code>
+        /// Edge firstEdge = edge;
+        /// do {
+        ///     // do something with `edge`
+        ///     edge = edge.Next(v);
+        /// } while(edge != firstEdge);
+        /// </code>
+        /// </example>
+        /// <seealso cref="Vertex.NeighborEdges"/>
+        /// <param name="v">The <see cref="Vertex"/> to get the next <see cref="Edge"/> of.</param>
+        /// <returns>
+        /// The next <see cref="Edge"/> in the linked list of edges that uses <paramref name="v"/>, 
+        /// bothing edges having <paramref name="v"/> in common.
+        /// </returns>
         public Edge Next(Vertex v)
         {
             Debug.Assert(ContainsVertex(v));
@@ -84,11 +106,30 @@ namespace BMeshLib
         }
 
         /// <summary>
-        /// Returns the previous <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>.
+        /// Returns the previous <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>. (Opposite of <see cref="Next(Vertex)"/>).
         /// </summary>
-        /// <remarks>Assumes that the specified <see cref="Vertex"/> is one of the vertices that make up the <see cref="Edge"/>; otherwise, behavior is undefined.</remarks>
-        /// <param name="v"></param>
-        /// <returns>The previous <see cref="Edge"/> in the linked list of edges that use <paramref name="v"/>. Shorthand for <c><paramref name="v"/> == <see cref="vert1"/> ? <see cref="prev1"/> : <see cref="prev2"/></c>.</returns>
+        /// <remarks>
+        /// Assumes that the specified <see cref="Vertex"/> is one of the vertices that 
+        /// comprise the <see cref="Edge"/>; otherwise, behavior is undefined.
+        /// It is ensured calling <c>Prev</c> on each resulting <see cref="Edge"/> will iterate through
+        /// all edges that the specified <see cref="Vertex"/> comprises.
+        /// </remarks>
+        /// <example>
+        /// For instance the following iterates through all edges:
+        /// <code>
+        /// Edge firstEdge = edge;
+        /// do {
+        ///     // do something with `edge`
+        ///     edge = edge.Prev(v);
+        /// } while(edge != firstEdge);
+        /// </code>
+        /// </example>
+        /// <seealso cref="Vertex.NeighborEdges"/>
+        /// <param name="v">The <see cref="Vertex"/> to get the previous <see cref="Edge"/> of.</param>
+        /// <returns>
+        /// The previous <see cref="Edge"/> in the linked list of edges that uses <paramref name="v"/>, 
+        /// bothing edges having <paramref name="v"/> in common.
+        /// </returns>
         public Edge Prev(Vertex v)
         {
             Debug.Assert(ContainsVertex(v));
@@ -108,7 +149,7 @@ namespace BMeshLib
         /// <summary>
         /// Returns all <see cref="Face"/>s that use the <see cref="Edge"/> as a side.
         /// </summary>
-        /// <returns>all <see cref="Face"/>s that use the <see cref="Edge"/> as one of it's sides.</returns>
+        /// <returns>All <see cref="Face"/>s that use the <see cref="Edge"/> as one of it's sides.</returns>
         public List<Face> NeighborFaces()
         {
             var faces = new List<Face>();
