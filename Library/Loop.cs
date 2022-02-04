@@ -3,21 +3,25 @@ using UnityEngine;
 
 namespace BMeshLib
 {
-    /**
-     * Since a face is basically a list of edges, and the Loop object is a node
-     * of this list, called so because the list must loop.
-     * A loop is associated to one and only one face.
-     * 
-     * A loop can be seen as a list of edges, it also stores a reference to a
-     * vertex for commodity but technically it could be found through the edge.
-     * It may also be interpreted as a "face corner", and is hence where one
-     * typically stores UVs, because one vertex may have different UV
-     * coordinates depending on the face.
-     * 
-     * On top of this, the loop is also used as a node of another linked list,
-     * namely the radial list, that enables iterating over all the faces using
-     * the same edge.
-     */
+    // Since a face is basically a list of edges, and the Loop object is a node
+    // of this list, called so because the list must loop.
+    // A loop is associated to one and only one face.
+    // 
+    // A loop can be seen as a list of edges, it also stores a reference to a
+    // vertex for commodity but technically it could be found through the edge.
+    // It may also be interpreted as a "face corner", and is hence where one
+    // typically stores UVs, because one vertex may have different UV
+    // coordinates depending on the face.
+    // 
+    // On top of this, the loop is also used as a node of another linked list,
+    // namely the radial list, that enables iterating over all the faces using
+    // the same edge.
+
+    /// <summary>
+    /// A combination of a <see cref="Vertex"/>, an <see cref="Edge"/> and a <see cref="Face"/>.
+    /// Meant to provide fast access to neighboring edges, by traversing around the <see cref="Face"/> with <see cref="Edge.Next(Vertex)"/>
+    /// and <see cref="Edge.Prev(Vertex)"/>. Or by traversing around the <see cref="Vertex"/> with RadialNext and RadialPrev.
+    /// </summary>
     public class Loop
     {
         public Dictionary<string, AttributeValue> attributes; // [attribute] (extra attributes)
@@ -38,10 +42,10 @@ namespace BMeshLib
             SetFace(f);
         }
 
-        /**
-         * Insert the loop in the linked list of the face.
-         * (Used in constructor)
-         */
+        /// <summary>
+        /// Insert the <see cref="Loop"/> in to the linked list of the specified <see cref="Face"/>.
+        /// </summary>
+        /// <param name="f">The <see cref="Face"/> to insert the <see cref="Loop"/> in to.</param>
         public void SetFace(Face f)
         {
             Debug.Assert(this.face == null);
@@ -63,10 +67,10 @@ namespace BMeshLib
             this.face = f;
         }
 
-        /**
-         * Insert the loop in the radial linked list.
-         * (Used in constructor)
-         */
+        /// <summary>
+        /// Insert the <see cref="Loop"/> in to the radial linked list.
+        /// </summary>
+        /// <param name="e">The <see cref="Edge"/> to insert the <see cref="Loop"/> in to.</param>
         public void SetEdge(Edge e)
         {
             Debug.Assert(this.edge == null);

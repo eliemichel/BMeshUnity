@@ -4,11 +4,14 @@ using UnityEngine;
 
 namespace BMeshLib
 {
-    /**
-     * A face is almost nothing more than a loop. Having a different structure
-     * makes sense only 1. for clarity, because loops are a less intuitive
-     * object and 2. to store face attributes.
-     */
+    /// <summary>
+    /// Represents a face of a mesh in a <see cref="BMesh"/>.
+    /// </summary>
+    /// <remarks>
+    /// A <see cref="Face"/> is little more than a <see cref="BMeshLib.Loop"/>.
+    /// However it is used since it is more intuitive than a <see cref="BMeshLib.Loop"/>,
+    /// and stores face <see cref="AttributeValue"/>s.
+    /// </remarks>
     public class Face
     {
         public int id; // [attribute]
@@ -16,9 +19,12 @@ namespace BMeshLib
         public int vertcount; // stored for commodity, can be recomputed easily
         public Loop loop; // navigate list using next
 
-        /**
-         * Get the list of vertices used by the face, ordered.
-         */
+        /// <summary>
+        /// Returns the ordered <see cref="Vertex"/>s that comprise the corners of the <see cref="Face"/>.
+        /// </summary>
+        /// <returns>
+        /// The vertices that comprise corners of the <see cref="Face"/>.
+        /// </returns>
         public List<Vertex> NeighborVertices()
         {
             var verts = new List<Vertex>();
@@ -34,10 +40,16 @@ namespace BMeshLib
             return verts;
         }
 
-        /**
-         * Assuming the vertex is part of the face, return the loop such that
-         * loop.vert = v. Return null otherwise.
-         */
+        /// <summary>
+        /// Returns the <see cref="BMeshLib.Loop"/> in the <see cref="Face"/>
+        /// whose <see cref="Loop.vert"/> matches the specified <see cref="Vertex"/>.
+        /// </summary>
+        /// <param name="v">The <see cref="Vertex"/> to get the <see cref="BMeshLib.Loop"/> of.</param>
+        /// <returns>
+        /// The <see cref="BMeshLib.Loop"/> of the <see cref="Face"/>
+        /// whose <see cref="Loop.vert"/> matches <paramref name="v"/>
+        /// if it is part of the <see cref="Face"/>; otherwise, <c>null</c>.
+        /// </returns>
         public Loop Loop(Vertex v)
         {
             if (this.loop != null)
@@ -53,11 +65,14 @@ namespace BMeshLib
             return null;
         }
 
-        /**
-         * Get the list of edges around the face.
-         * It is garrantied to match the order of NeighborVertices(), so that
-         * edge[0] = vert[0]-->vert[1], edge[1] = vert[1]-->vert[2], etc.
-         */
+        /// <summary>
+        /// Returns the ordered <see cref="Edge"/>s around the <see cref="Face"/>.
+        /// </summary>
+        /// <returns>The <see cref="Edge"/>s that make up the <see cref="Face"/>.</returns>
+        /// /// <remarks>
+        /// Guarantied to match the order of <see cref="NeighborVertices"/>.
+        /// So that <c>edge[0] = vert[0]-->vert[1], edge[1] = vert[1]-->vert[2], etc.</c>
+        /// </remarks>
         public List<Edge> NeighborEdges()
         {
             var edges = new List<Edge>();
@@ -73,9 +88,10 @@ namespace BMeshLib
             return edges;
         }
 
-        /**
-         * Compute the barycenter of the face vertices
-         */
+        /// <summary>
+        /// The center of the vertices that are used by the <see cref="Face"/>.
+        /// </summary>
+        /// <returns>The center of <see cref="Face"/>.</returns>
         public Vector3 Center()
         {
             Vector3 p = Vector3.zero;
