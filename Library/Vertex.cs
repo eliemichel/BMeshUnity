@@ -49,8 +49,8 @@ namespace BMeshLib
         /// Returns all <see cref="Edge"/>s that reach the <see cref="Vertex"/>.
         /// </summary>
         /// <returns>
-        /// All <see cref="Edge"/>s that reach the <see cref="Vertex"/>. 
-        /// Uses <see cref="Edge.Next(Vertex)"/> from <see cref="edge"/> until it reaches <see cref="edge"/> again.
+        /// All <see cref="Edge"/>s that reach the <see cref="Vertex"/>. Uses
+        /// <see cref="Edge.Next(Vertex)"/> from <see cref="edge"/> until it reaches <see cref="edge"/> again.
         /// </returns>
         public List<Edge> NeighborEdges()
         {
@@ -70,7 +70,9 @@ namespace BMeshLib
         /// <summary>
         /// Returns all <see cref="Face"/>s that use the <see cref="Vertex"/> as a corner.
         /// </summary>
-        /// <returns>All <see cref="Face"/>s that use the <see cref="Vertex"/> as one of it's corners.</returns>
+        /// <returns>
+        /// All <see cref="Face"/>s that use the <see cref="Vertex"/> as one of it's corners.
+        /// </returns>
         public List<Face> NeighborFaces()
         {
             var faces = new HashSet<Face>();

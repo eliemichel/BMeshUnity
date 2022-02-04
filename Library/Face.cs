@@ -22,7 +22,9 @@ namespace BMeshLib
         /// <summary>
         /// Returns the ordered <see cref="Vertex"/>s that comprise the corners of the <see cref="Face"/>.
         /// </summary>
-        /// <returns>The vertices that comprise corners of the <see cref="Face"/>.</returns>
+        /// <returns>
+        /// The vertices that comprise corners of the <see cref="Face"/>.
+        /// </returns>
         public List<Vertex> NeighborVertices()
         {
             var verts = new List<Vertex>();
@@ -39,11 +41,14 @@ namespace BMeshLib
         }
 
         /// <summary>
-        /// Returns the <see cref="BMeshLib.Loop"/> in the <see cref="Face"/> whose <see cref="Loop.vert"/> matches the specified <see cref="Vertex"/>.
+        /// Returns the <see cref="BMeshLib.Loop"/> in the <see cref="Face"/>
+        /// whose <see cref="Loop.vert"/> matches the specified <see cref="Vertex"/>.
         /// </summary>
         /// <param name="v">The <see cref="Vertex"/> to get the <see cref="BMeshLib.Loop"/> of.</param>
         /// <returns>
-        /// The <see cref="BMeshLib.Loop"/> of the <see cref="Face"/> whose <see cref="Loop.vert"/> matches <paramref name="v"/> if it is part of the <see cref="Face"/>; otherwise, <c>null</c>.
+        /// The <see cref="BMeshLib.Loop"/> of the <see cref="Face"/>
+        /// whose <see cref="Loop.vert"/> matches <paramref name="v"/>
+        /// if it is part of the <see cref="Face"/>; otherwise, <c>null</c>.
         /// </returns>
         public Loop Loop(Vertex v)
         {
@@ -63,8 +68,11 @@ namespace BMeshLib
         /// <summary>
         /// Returns the ordered <see cref="Edge"/>s around the <see cref="Face"/>.
         /// </summary>
-        /// <remarks>Garrantied to match the order of <see cref="NeighborVertices"/>. So that <c>edge[0] = vert[0]-->vert[1], edge[1] = vert[1]-->vert[2], etc.</c></remarks>
         /// <returns>The <see cref="Edge"/>s that make up the <see cref="Face"/>.</returns>
+        /// /// <remarks>
+        /// Guarantied to match the order of <see cref="NeighborVertices"/>.
+        /// So that <c>edge[0] = vert[0]-->vert[1], edge[1] = vert[1]-->vert[2], etc.</c>
+        /// </remarks>
         public List<Edge> NeighborEdges()
         {
             var edges = new List<Edge>();

@@ -43,7 +43,9 @@ namespace BMeshLib
         /// Whether the specified <see cref="Vertex"/> is one of the vertices that comprise the <see cref="Edge"/>.
         /// </summary>
         /// <param name="v">The <see cref="Vertex"/> to compare.</param>
-        /// <returns><c>true</c> if <paramref name="v"/> is used by the <see cref="Edge"/>; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if <paramref name="v"/> is used by the <see cref="Edge"/>; otherwise, <c>false</c>.
+        /// </returns>
         public bool ContainsVertex(Vertex v)
         {
             return v == vert1 || v == vert2;
@@ -65,7 +67,8 @@ namespace BMeshLib
         }
 
         /// <summary>
-        /// Returns the next <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>. (Opposite of <see cref="Prev(Vertex)"/>).
+        /// Returns the next <see cref="Edge"/> in the linked list of edges that use
+        /// the specified <see cref="Vertex"/>. (Opposite of <see cref="Prev(Vertex)"/>).
         /// </summary>
         /// <remarks>
         /// Assumes that the specified <see cref="Vertex"/> is one of the vertices that 
@@ -106,7 +109,8 @@ namespace BMeshLib
         }
 
         /// <summary>
-        /// Returns the previous <see cref="Edge"/> in the linked list of edges that use the specified <see cref="Vertex"/>. (Opposite of <see cref="Next(Vertex)"/>).
+        /// Returns the previous <see cref="Edge"/> in the linked list of edges that
+        /// use the specified <see cref="Vertex"/>. (Opposite of <see cref="Next(Vertex)"/>).
         /// </summary>
         /// <remarks>
         /// Assumes that the specified <see cref="Vertex"/> is one of the vertices that 
