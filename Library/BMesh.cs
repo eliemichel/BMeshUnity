@@ -92,29 +92,56 @@ namespace BMeshLib
         ///////////////////////////////////////////////////////////////////////////
         #region [Topology Methods]
 
-        /**
-         * Add a new vertex to the mesh.
-         */
+        /// <summary>
+        /// Adds the specified <see cref="Vertex"/> to the <see cref="BMesh"/>.
+        /// </summary>
+        /// <param name="vert">The <see cref="Vertex"/> to add to the <see cref="BMesh"/>.</param>
+        /// <returns>The <see cref="Vertex"/> that was added.</returns>
         public Vertex AddVertex(Vertex vert)
         {
             EnsureVertexAttributes(vert);
             vertices.Add(vert);
             return vert;
         }
+        
+        /// <summary>
+        /// Adds a new <see cref="Vertex"/> to the <see cref="BMesh"/> with the specified position.
+        /// </summary>
+        /// <param name="point">The position of the <see cref="Vertex"/> to
+        /// create and add to the <see cref="BMeshLib"/>.</param>
+        /// <returns>The <see cref="Vertex"/> that was created and added.</returns>
         public Vertex AddVertex(Vector3 point)
         {
             return AddVertex(new Vertex(point));
         }
+        
+        /// <summary>
+        /// Adds a new <see cref="Vertex"/> to the <see cref="BMesh"/> with the specified position.
+        /// </summary>
+        /// <param name="x">The x position of the <see cref="Vertex"/> to create.</param>
+        /// <param name="y">The y position of the <see cref="Vertex"/> to create.</param>
+        /// <param name="z">The z position of the <see cref="Vertex"/> to create.</param>
+        /// <returns>The <see cref="Vertex"/> that was created and added.</returns>
         public Vertex AddVertex(float x, float y, float z)
         {
             return AddVertex(new Vector3(x, y, z));
         }
-
-        /**
-         * Add a new edge between two vertices. If there is already such edge,
-         * return it without adding a new one.
-         * If the vertices are not part of the mesh, the behavior is undefined.
-         */
+        
+        /// <summary>
+        /// Adds a new <see cref="Edge"/> comprised of the specified vertices.
+        /// If there is already an <see cref="Edge"/> between them, return it
+        /// without creating a new one.
+        /// </summary>
+        /// <remarks>
+        /// If the vertices are not part of the <see cref="BMeshLib"/>,
+        /// the behavior is undefined.
+        /// </remarks>
+        /// <param name="vert1">The <see cref="Vertex"/> used for one end of the <see cref="Edge"/>.</param>
+        /// <param name="vert2">The <see cref="Vertex"/> used for one end of the <see cref="Edge"/>.</param>
+        /// <returns>
+        /// An <see cref="Edge"/> in the <see cref="BMesh"/> that is comprised of <paramref name="vert1"/>
+        /// and <paramref name="vert2"/>.
+        /// </returns>
         public Edge AddEdge(Vertex vert1, Vertex vert2)
         {
             Debug.Assert(vert1 != vert2);
@@ -161,17 +188,35 @@ namespace BMeshLib
             return edge;
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Edge"/> comprised of the vertices at the specified indices.
+        /// If there is already an <see cref="Edge"/> between them, return it
+        /// without creating a new one.
+        /// </summary>
+        /// <remarks>
+        /// If the vertices are not part of the <see cref="BMeshLib"/>,
+        /// the behavior is undefined.
+        /// </remarks>
+        /// <param name="v1">The index of the <see cref="Vertex"/> to use for one end of the <see cref="Edge"/>.</param>
+        /// <param name="v2">The index of the <see cref="Vertex"/> to use for one end of the <see cref="Edge"/>.</param>
+        /// <returns>
+        /// An <see cref="Edge"/> in the <see cref="BMesh"/> that is comprised of the
+        /// <see cref="Vertex"/> at index <paramref name="v1"/> and the <see cref="Vertex"/>
+        /// at index <paramref name="v2"/>.
+        /// </returns>
         public Edge AddEdge(int v1, int v2)
         {
             return AddEdge(vertices[v1], vertices[v2]);
         }
-
-        /**
-         * Add a new face that connects the array of vertices provided.
-         * The vertices must be part of the mesh, otherwise the behavior is
-         * undefined.
-         * NB: There is no AddLoop, because a loop is an element of a face
-         */
+        
+        /// <summary>
+        /// Adds a new <see cref="Face"/> with loops that is comprised of the specified <see cref="Vertex"/>s.
+        /// </summary>
+        /// <param name="fVerts">The vertices that are used to create the <see cref="Face"/>.</param>
+        /// <returns>The <see cref="Face"/> created using the specified vertices.</returns>
+        /// <remarks>
+        /// The vertices must be part of the mesh, otherwise the behavior is undefined.
+        /// </remarks>
         public Face AddFace(Vertex[] fVerts)
         {
             if (fVerts.Length == 0) return null;
@@ -201,41 +246,110 @@ namespace BMeshLib
             return f;
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Face"/> with loops that is comprised of the specified <see cref="Vertex"/>s.
+        /// </summary>
+        /// <param name="v0">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="v1">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <returns>The <see cref="Face"/> created using the specified vertices.</returns>
+        /// <remarks>
+        /// The vertices must be part of the mesh, otherwise the behavior is undefined.
+        /// </remarks>
         public Face AddFace(Vertex v0, Vertex v1)
         {
             return AddFace(new Vertex[] { v0, v1 });
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Face"/> with loops that is comprised of the specified <see cref="Vertex"/>s.
+        /// </summary>
+        /// <param name="v0">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="v1">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="v2">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <returns>The <see cref="Face"/> created using the specified vertices.</returns>
+        /// <remarks>
+        /// The vertices must be part of the mesh, otherwise the behavior is undefined.
+        /// </remarks>
         public Face AddFace(Vertex v0, Vertex v1, Vertex v2)
         {
             return AddFace(new Vertex[] { v0, v1, v2 });
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Face"/> with loops that is comprised of the specified <see cref="Vertex"/>s.
+        /// </summary>
+        /// <param name="v0">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="v1">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="v2">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="v3">One of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <returns>The <see cref="Face"/> created using the specified vertices.</returns>
+        /// <remarks>
+        /// The vertices must be part of the mesh, otherwise the behavior is undefined.
+        /// </remarks>
         public Face AddFace(Vertex v0, Vertex v1, Vertex v2, Vertex v3)
         {
             return AddFace(new Vertex[] { v0, v1, v2, v3 });
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Face"/> with loops that is comprised of the specified <see cref="Vertex"/>s.
+        /// </summary>
+        /// <param name="i0">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="i1">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <returns>The <see cref="Face"/> created using the specified vertices.</returns>
+        /// <remarks>
+        /// The vertices must be part of the mesh, otherwise the behavior is undefined.
+        /// </remarks>
         public Face AddFace(int i0, int i1)
         {
             return AddFace(new Vertex[] { vertices[i0], vertices[i1] });
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Face"/> with loops that is comprised of the specified <see cref="Vertex"/>s.
+        /// </summary>
+        /// <param name="i0">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="i1">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="i2">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <returns>The <see cref="Face"/> created using the specified vertices.</returns>
+        /// <remarks>
+        /// The vertices must be part of the mesh, otherwise the behavior is undefined.
+        /// </remarks>
         public Face AddFace(int i0, int i1, int i2)
         {
             return AddFace(new Vertex[] { vertices[i0], vertices[i1], vertices[i2] });
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Face"/> with loops that is comprised of the specified <see cref="Vertex"/>s.
+        /// </summary>
+        /// <param name="i0">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="i1">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="i2">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <param name="i3">The index of one of the <see cref="Vertex"/>s to use to create the <see cref="Face"/>.</param>
+        /// <returns>The <see cref="Face"/> created using the specified vertices.</returns>
+        /// <remarks>
+        /// The vertices must be part of the mesh, otherwise the behavior is undefined.
+        /// </remarks>
         public Face AddFace(int i0, int i1, int i2, int i3)
         {
             return AddFace(new Vertex[] { vertices[i0], vertices[i1], vertices[i2], vertices[i3] });
         }
-
-        /**
-         * Return an edge that links vert1 to vert2 in the mesh (an arbitrary one
-         * if there are several such edges, which is possible with this structure).
-         * Return null if there is no edge between vert1 and vert2 in the mesh.
-         */
+        
+        /// <summary>
+        /// Searches for an <see cref="Edge"/> that consists of the specified
+        /// <see cref="Vertex"/>s and returns the first occurence.
+        /// </summary>
+        /// <param name="vert1">
+        /// One of the <see cref="Vertex"/>s that consist the <see cref="Edge"/> to search for.
+        /// </param>
+        /// <param name="vert2">
+        /// One of the <see cref="Vertex"/>s that consist the <see cref="Edge"/> to search for.
+        /// </param>
+        /// <returns>
+        /// The first <see cref="Edge"/> that consists of <paramref name="vert1"/>
+        /// and <paramref name="vert2"/>, if found; otherwise <c>null</c>.
+        /// </returns>
         public Edge FindEdge(Vertex vert1, Vertex vert2)
         {
             Debug.Assert(vert1 != vert2);
@@ -252,12 +366,16 @@ namespace BMeshLib
             } while (e1 != vert1.edge && e2 != vert2.edge);
             return null;
         }
-
-        /**
-         * Remove the provided vertex from the mesh.
-         * Removing a vertex also removes all the edges/loops/faces that use it.
-         * If the vertex was not part of this mesh, the behavior is undefined.
-         */
+        
+        /// <summary>
+        /// Removes the specified <see cref="Vertex"/> from the <see cref="BMesh"/>,
+        /// also removes all <see cref="Edge"/>s, <see cref="Loop"/>s
+        /// and <see cref="Face"/>s that use it.
+        /// </summary>
+        /// <param name="v">The <see cref="Vertex"/> to remove from the <see cref="BMesh"/>.</param>
+        /// <remarks>
+        /// If the specified <see cref="Vertex"/> is not part of the <see cref="BMesh"/>, the behavior is undefined.
+        /// </remarks>
         public void RemoveVertex(Vertex v)
         {
             while (v.edge != null)
@@ -268,11 +386,14 @@ namespace BMeshLib
             vertices.Remove(v);
         }
 
-        /**
-         * Remove the provided edge from the mesh.
-         * Removing an edge also removes all associated loops/faces.
-         * If the edge was not part of this mesh, the behavior is undefined.
-         */
+        /// <summary>
+        /// Removes the specified <see cref="Edge"/> from the <see cref="BMesh"/>,
+        /// also removes all <see cref="Loop"/>s and <see cref="Face"/>s that use it.
+        /// </summary>
+        /// <param name="e">The <see cref="Edge"/> to remove from the <see cref="BMesh"/>.</param>
+        /// <remarks>
+        /// If the specified <see cref="Edge"/> is not part of the <see cref="BMesh"/>, the behavior is undefined.
+        /// </remarks>
         public void RemoveEdge(Edge e)
         {
             while (e.loop != null)
@@ -329,11 +450,14 @@ namespace BMeshLib
             loops.Remove(l);
         }
 
-        /**
-         * Remove the provided face from the mesh.
-         * If the face was not part of this mesh, the behavior is undefined.
-         * (actually almost ensured to be a true mess, but do as it pleases you :D)
-         */
+        /// <summary>
+        /// Removes the specified <see cref="Face"/> from the <see cref="BMesh"/>,
+        /// also removes all associated <see cref="Loop"/>s.
+        /// </summary>
+        /// <param name="f">The <see cref="Face"/> to remove from the <see cref="BMesh"/>.</param>
+        /// <remarks>
+        /// If the specified <see cref="Face"/> is not part of the <see cref="BMesh"/>, the behavior is undefined.
+        /// </remarks>
         public void RemoveFace(Face f)
         {
             Loop l = f.loop;
@@ -348,8 +472,7 @@ namespace BMeshLib
             faces.Remove(f);
         }
         #endregion
-
-
+        
         ///////////////////////////////////////////////////////////////////////////
         #region [Vertex Attribute Methods]
 
