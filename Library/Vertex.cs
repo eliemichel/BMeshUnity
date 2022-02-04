@@ -4,31 +4,34 @@ using UnityEngine;
 
 namespace BMeshLib
 {
-    /**
-     * NB: For all topology types, except for members marked as "attribute",
-     * all classes only store references to objects allocated by BMesh itself.
-     * Variables marked as attributes have no impact on the topological
-     * algorithm applied to the mesh (e.g. finding the neighbors), they are
-     * only set by calling code. In particuler, the 'id' field has no meaning
-     * for this class, it is put here purely for commodity, but don't expect it
-     * to get actually filled unless you explicitely did do.
-     */
+    //   NB: For all topology types, except for members marked as "attribute",
+    //   all classes only store references to objects allocated by BMesh itself.
+    //   Variables marked as attributes have no impact on the topological
+    //   algorithm applied to the mesh (e.g. finding the neighbors), they are
+    //   only set by calling code. In particuler, the 'id' field has no meaning
+    //   for this class, it is put here purely for commodity, but don't expect it
+    //   to get actually filled unless you explicitely did do.
+    //  
+    //  
+    //   A vertex corresponds roughly to a position in space. Many primitives
+    //   (edges, faces) can share a given vertex. Several vertices can be located
+    //   at the very same position.
+    //   It references a chained list of the edges that use it, embeded inside the Edge
+    //   structure (see below, and see implementation of NeighborEdges).
+    //   The vertex position does not affect topological algorithms, but is used by
+    //   commodity functions that help finding the center of an edge or a face.
 
-    /**
-     * A vertex corresponds roughly to a position in space. Many primitives
-     * (edges, faces) can share a given vertex. Several vertices can be located
-     * at the very same position.
-     * It references a chained list of the edges that use it, embeded inside the Edge
-     * structure (see below, and see implementation of NeighborEdges).
-     * The vertex position does not affect topological algorithms, but is used by
-     * commodity functions that help finding the center of an edge or a face.
-     */
     /// <summary>
-    /// Corresponds to a point in space, and is used by <see cref="Edge"/> and <see cref="Face"/> to construct a <see cref="BMesh"/>. 
+    /// Corresponds to a point in space, and is used by <see cref="Edge"/>
+    /// and <see cref="Face"/> to construct a <see cref="BMesh"/>. 
     /// </summary>
     /// <remarks>
-    /// Multiple <see cref="Edge"/>s and <see cref="Face"/>s can use the same <see cref="Vertex"/>, 
-    /// and multiple vertices can be located at the exact same position.
+    /// Multiple <see cref="Edge"/>s and <see cref="Face"/>s can use
+    /// a given <see cref="Vertex"/>, and multiple vertices can be located
+    /// at the exact same position. A <see cref="Vertex"/> references a chained list
+    /// of the <see cref="BMeshLib.Edge"/>s that use it embedded inside the edge structure.
+    /// The <see cref="Vertex"/>'s position does not affect topological algorithms,
+    /// but is used by commodity functions that help finding the center of an edge or a face.
     /// </remarks>
     public class Vertex
     {

@@ -3,27 +3,27 @@ using UnityEngine;
 
 namespace BMeshLib
 {
-    /**
-     * An edge links to vertices together, and may or may not be part of a face.
-     * An edge can be shared by several faces.
-     * 
-     * Technical Note: The structure stores a reference to the two vertices.
-     * Although the role of these two vertices is perfectly symmetrical, this
-     * makes the iterations over linked list slightly trickier than expected.
-     * 
-     * The edge is a node of two (double) linked lists at the same time. Let's
-     * recall that a (simply) linked list of Stuff is made of nodes of the form
-     *     Node {
-     *         Stuff value;
-     *         Node next;
-     *     }
-     * Here we provide two "next", depending on whether the vertex that we are
-     * interested in is vertex1 or vertex2. Note that a vertex stored in the
-     * "vertex1" field for one edge might be stored in the "vertex2" of the
-     * next one, so the function Next() is provided to return either next1 or
-     * next2 depending on the vertex of interest.
-     */
-    /// <summary>
+    
+     // An edge links to vertices together, and may or may not be part of a face.
+     // An edge can be shared by several faces.
+     //
+     // Technical Note: The structure stores a reference to the two vertices.
+     // Although the role of these two vertices is perfectly symmetrical, this
+     // makes the iterations over linked list slightly trickier than expected.
+     //
+     // The edge is a node of two (double) linked lists at the same time. Let's
+     // recall that a (simply) linked list of Stuff is made of nodes of the form
+     //     Node {
+     //         Stuff value;
+     //         Node next;
+     //     }
+     // Here we provide two "next", depending on whether the vertex that we are
+     // interested in is vertex1 or vertex2. Note that a vertex stored in the
+     // "vertex1" field for one edge might be stored in the "vertex2" of the
+     // next one, so the function Next() is provided to return either next1 or
+     // next2 depending on the vertex of interest.
+
+     /// <summary>
     /// Links two <see cref="Vertex"/>s together, and may or may not be part of a <see cref="Face"/>.
     /// </summary>
     /// <remarks>Multiple <see cref="Face"/>s can share the same <see cref="Edge"/>.</remarks>
@@ -87,7 +87,7 @@ namespace BMeshLib
         /// <param name="v">The <see cref="Vertex"/> to get the next <see cref="Edge"/> of.</param>
         /// <returns>
         /// The next <see cref="Edge"/> in the linked list of edges that uses <paramref name="v"/>, 
-        /// bothing edges having <paramref name="v"/> in common.
+        /// both edges having <paramref name="v"/> in common.
         /// </returns>
         public Edge Next(Vertex v)
         {

@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace BMeshLib
 {
-    /**
-     * A face is almost nothing more than a loop. Having a different structure
-     * makes sense only 1. for clarity, because loops are a less intuitive
-     * object and 2. to store face attributes.
-     */
     /// <summary>
     /// Represents a face of a mesh in a <see cref="BMesh"/>.
     /// </summary>
+    /// <remarks>
+    /// A <see cref="Face"/> is little more than a <see cref="BMeshLib.Loop"/>.
+    /// However it is used since it is more intuitive than a <see cref="BMeshLib.Loop"/>,
+    /// and stores face <see cref="AttributeValue"/>s.
+    /// </remarks>
     public class Face
     {
         public int id; // [attribute]
